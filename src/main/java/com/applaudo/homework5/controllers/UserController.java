@@ -21,6 +21,9 @@ public class UserController {
   public ResponseEntity<Object> getAllUsers() {
     try {
       List<User> users = userService.getAllUsers();
+      if (users.isEmpty()) {
+        return ResponseEntity.badRequest().body("The User table is empty.");
+      }
       return ResponseEntity.ok(users);
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());

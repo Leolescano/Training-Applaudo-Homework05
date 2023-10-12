@@ -2,10 +2,13 @@ package com.applaudo.homework5.entities;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "tb_user")
@@ -33,4 +36,8 @@ public class User implements Serializable {
 
   // @Pattern(regexp = "\\+503 [0-9]{4} [0-9]{4}", message = "Invalid phone number")
   private String phone;
+
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 }
