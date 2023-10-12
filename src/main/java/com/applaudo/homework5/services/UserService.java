@@ -6,15 +6,20 @@ import com.applaudo.homework5.services.exceptions.ServicesNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.applaudo.homework5.utils.exceptions.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.applaudo.homework5.utils.Validations.emailValidator;
+import static com.applaudo.homework5.utils.Validations.phoneNumberValidator;
 
 @Service
 public class UserService {
 
   @Autowired private UserRepository userRepository;
 
-  public void createUser(User user) throws ServicesNotFoundException {
+  public void createUser(User user) throws ServicesNotFoundException, ValidationException  {
     List<String> missingFields = new ArrayList<>();
 
     if (user.getEmail() == null) {
@@ -30,6 +35,18 @@ public class UserService {
     if (!missingFields.isEmpty()) {
       String missingFieldsMsg = String.join(", ", missingFields);
       throw new RuntimeException("The following fields are required: " + missingFieldsMsg);
+    }
+
+    if (!emailValidator(user.getEmail())){
+      throw new ValidationException("The email address is not in a valid format.");
+    }
+
+    if (!phoneNumberValidator(user.getPhone())){
+      throw new ValidationException("The phone number does not have the correct pattern (+503 #### ####).");
+    }
+
+    if (user.getFirstName().isEmpty() || user.getLastName().isEmpty()) {
+      throw new ValidationException("First or last name cannot be blank.");
     }
 
     Optional<User> existingUser = userRepository.findByEmail(user.getEmail());

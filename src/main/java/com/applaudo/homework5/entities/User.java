@@ -22,18 +22,18 @@ public class User implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank
+  //@NotBlank
   @Column(length = 50, nullable = false)
   private String firstName;
 
-  @NotBlank
+  //@NotBlank
   @Column(length = 50, nullable = false)
   private String lastName;
 
-  @Email
+  //@Email
   @Column(unique = true, nullable = false)
   private String email;
 
-  @Pattern(regexp = "\\+503 [0-9]{4} [0-9]{4}", message = "Invalid phone number")
+  // @Pattern(regexp = "\\+503 [0-9]{4} [0-9]{4}", message = "Invalid phone number")
   private String phone;
 }
