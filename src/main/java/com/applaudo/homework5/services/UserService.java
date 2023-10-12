@@ -1,25 +1,24 @@
 package com.applaudo.homework5.services;
 
+import static com.applaudo.homework5.utils.Validations.emailValidator;
+import static com.applaudo.homework5.utils.Validations.phoneNumberValidator;
+
 import com.applaudo.homework5.entities.User;
 import com.applaudo.homework5.repositories.UserRepository;
 import com.applaudo.homework5.services.exceptions.ServicesNotFoundException;
+import com.applaudo.homework5.utils.exceptions.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.applaudo.homework5.utils.exceptions.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static com.applaudo.homework5.utils.Validations.emailValidator;
-import static com.applaudo.homework5.utils.Validations.phoneNumberValidator;
 
 @Service
 public class UserService {
 
   @Autowired private UserRepository userRepository;
 
-  public void createUser(User user) throws ServicesNotFoundException, ValidationException  {
+  public void createUser(User user) throws ServicesNotFoundException, ValidationException {
     List<String> missingFields = new ArrayList<>();
 
     if (user.getEmail() == null) {
@@ -37,12 +36,13 @@ public class UserService {
       throw new RuntimeException("The following fields are required: " + missingFieldsMsg);
     }
 
-    if (!emailValidator(user.getEmail())){
+    if (!emailValidator(user.getEmail())) {
       throw new ValidationException("The email address is not in a valid format.");
     }
 
-    if (!phoneNumberValidator(user.getPhone())){
-      throw new ValidationException("The phone number does not have the correct pattern (+503 #### ####).");
+    if (!phoneNumberValidator(user.getPhone())) {
+      throw new ValidationException(
+          "The phone number does not have the correct pattern (+503 #### ####).");
     }
 
     if (user.getFirstName().isEmpty() || user.getLastName().isEmpty()) {

@@ -1,9 +1,6 @@
 package com.applaudo.homework5.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,15 +19,15 @@ public class User implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  //@NotBlank
+  // @NotBlank
   @Column(length = 50, nullable = false)
   private String firstName;
 
-  //@NotBlank
+  // @NotBlank
   @Column(length = 50, nullable = false)
   private String lastName;
 
-  //@Email
+  // @Email
   @Column(unique = true, nullable = false)
   private String email;
 
